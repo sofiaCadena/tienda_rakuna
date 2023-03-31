@@ -1,5 +1,23 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
-</template>
+  <nav_bar>
+    <AboutCom/>
+  </nav_bar>
+  <footerF/>
+  </template>
+  <script>
+  import {defineComponent} from "vue";
+  import nav_bar from '../components/navBar.vue';
+  import footerF from '../components/footerF.vue';
+  import AboutCom from "@/components/AboutCom.vue";
+
+  
+  export default defineComponent({
+    name: 'AccesoriosView',
+  
+    components: {
+      nav_bar,
+      footerF,
+      AboutCom
+    },
+  });
+  </script>
