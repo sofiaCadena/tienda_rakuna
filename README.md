@@ -1,5 +1,9 @@
 # tienda_rakuna
 
+## Info
+```
+Se usó Vue.js, Vuetify, Node.js, Express.js 
+```
 ## Project setup
 ```
 npm install
