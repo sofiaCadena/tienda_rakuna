@@ -1,11 +1,8 @@
 const express = require('express');
-const session = require('express-session');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-
-// app.use(bodyParser.urlencoded({ extended: false }));
 const app = express();
 app.use(express.json())
 app.use(cors());
@@ -20,47 +17,36 @@ const connection = mysql.createConnection({
 });
 
 // Peticiones para registrar un usuario en la base de datos
+// 
+
 app.post('/registrar', (req, res) => {
-    const { nombre, apellido, correo, password } = req.body;
+  const { nombre, apellido, correo, password } = req.body;
+
+  // Verificar si el correo electrónico ya existe en la base de datos
+  connection.query('SELECT * FROM usuarios WHERE correo = ?', [correo], (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).send({ error: 'Error interno del servidor' });
+    }
+     console.log(results);
+
+    if (results && results.length > 0) {
+      // El correo electrónico ya existe en la base de datos
+      return res.status(409).json({ message: 'El correo electrónico ya está en uso' });
+    }
+
+    // El correo electrónico no existe en la base de datos, insertar el nuevo usuario
     const usuario = { nombre, apellido, correo, password };
     connection.query('INSERT INTO usuarios SET ?', usuario, (error) => {
-        if (error) {
-            return res.status(500).send({ error: 'Error al registrar usuario' });
-        } else {
-            res.send({ message: 'Usuario registrado exitosamente' });
-        }
+      if (error) {
+        console.error(error);
+        return res.status(500).send({ error: 'Error al registrar usuario' });
+      }
+
+      res.status(201).json({ message: 'Usuario registrado exitosamente' });
     });
+  });
 });
-// app.post('/registrar', (req, res) => {
-//     const { nombre, apellido, correo, password } = req.body;
-//     const usuario = { nombre, apellido, correo, password };
-  
-//     // Verificar si el correo electrónico ya existe en la base de datos
-//     connection.query('SELECT * FROM usuarios WHERE correo = ?', [correo], (error, results) => {
-//       if (error) {
-//         throw error;
-//       }
-  
-//       if (results.length > 0) {
-//         // El correo electrónico ya existe en la base de datos
-//         res.status(409).json({ message: 'El correo electrónico ya está en uso' });
-//       } else {
-//         // El correo electrónico no existe en la base de datos, insertar el nuevo usuario
-//         connection.query('INSERT INTO usuarios ( nombre, apellido, correo, password) VALUES (?, ?, ?)', [ nombre, apellido, correo, password], (error, results) => {
-//           if (error) {
-//             throw error;
-//           }
-  
-//           res.status(201).json({ message: 'Usuario registrado con éxito' });
-//         });
-//       }
-//     });
-//   });
-  
-
-
-
-
 
 app.get('/api/usuarios', (req, res) => {
     connection.query('SELECT * FROM usuarios' ,(error, results) => {
