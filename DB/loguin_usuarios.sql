@@ -81,16 +81,6 @@ CREATE TABLE `usuarios` (
   `password` varchar(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `correo`, `password`) VALUES
-(4, 'Laura', 'Cadena', 'selenatica2002@gmail.com', 'loliloli'),
-(5, 'james', 'valdez', 'jamesValdez@gmail.com', 'loliloli'),
-(69, 'sandra', 'cadena', 'sandra-cadena@hotmail.com', 'lili'),
-(98, 'dads', 'dsds', 'dsds@dsdss.com', 'dede'),
-(99, 'sandra', 'cadena', 'sandrakiw@gmail.com', 'dw');
 
 --
 -- Índices para tablas volcadas
